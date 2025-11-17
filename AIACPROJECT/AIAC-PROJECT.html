@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRU University - Academics & Administration Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7fa;
+            overflow-x: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #003366, #004080);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            animation: slideDown 0.5s ease-out;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        .logo i {
+            font-size: 2em;
+            margin-right: 10px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .portal-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-left: 20px;
+        }
+        nav {
+            background: #004080;
+            padding: 0;
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        .nav-menu li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav-menu li a:hover {
+            background: #003366;
+            transform: scale(1.05);
+        }
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #004080;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .nav-menu li:hover .dropdown {
+            display: block;
+        }
+        .dropdown a {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        section {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: bounceIn 0.8s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .section-title {
+            font-size: 2em;
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #004080, #007bff);
+            margin: 10px auto;
+            border-radius: 2px;
+            animation: expand 1s ease-out;
+        }
+        @keyframes expand {
+            from { width: 0; }
+            to { width: 50px; }
+        }
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,64,128,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #004080;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        /* Student Info Card on Home */
+        .student-info-card {
+            background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .student-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .student-info-card h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            border: 4px solid #004080;
+            transition: all 0.3s ease;
+        }
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .student-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .student-detail:last-child {
+            border-bottom: none;
+        }
+        .student-detail-label {
+            font-weight: 600;
+            color: #004080;
+        }
+        .student-detail-value {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .edit-profile-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+        .edit-profile-btn:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        th {
+            background: #004080;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #e3f2fd;
+            transform: scale(1.01);
+        }
+        tr.active-row {
+            background: #e3f2fd;
+            font-weight: 600;
+            animation: highlight 0.5s ease-out;
+        }
+        @keyframes highlight {
+            0% { background: white; }
+            100% { background: #e3f2fd; }
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #003366;
+        }
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        form input:focus, form select:focus, form textarea:focus {
+            border-color: #004080;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0,64,128,0.2);
+            transform: scale(1.02);
+        }
+        form button {
+            background: #004080;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        form button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        form button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        form button:hover {
+            background: #003366;
+            transform: translateY(-2px);
+        }
+        .course-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .course-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .course-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #004080, #007bff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .course-card:hover::after {
+            transform: scaleX(1);
+        }
+        .course-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .course-card button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .course-card button:hover {
+            background: #218838;
+            transform: scale(1.1);
+        }
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .star {
+            font-size: 1.5em;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .star:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        .star.active {
+            color: #ffc107;
+            text-shadow: 0 0 10px #ffc107;
+        }
+        /* Profile Photo Upload Styles */
+        .profile-upload {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #004080;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .profile-photo-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #profile-photo-input {
+            display: none;
+        }
+        .upload-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.4s ease;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            transform: scale(0.7);
+            animation: zoomIn 0.4s ease forwards;
+        }
+        @keyframes zoomIn {
+            to { transform: scale(1); }
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close:hover {
+            color: #000;
+            transform: rotate(90deg);
+        }
+        .countdown {
+            text-align: center;
+            font-size: 1.5em;
+            color: #004080;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        footer {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+            animation: slideUp 0.5s ease-out 1s both;
+        }
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-menu {
+                flex-direction: column;
+            }
+            .nav-menu li a {
+                padding: 10px;
+            }
+            .dropdown {
+                position: static;
+                width: 100%;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+            }
+            .student-detail {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .profile-photo-preview {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span>SRU</span>
+            </div>
+            <div class="portal-title">
+                SR University<br>
+                <small style="font-size: 0.8em; font-weight: 300;">Academics & Administration Portal</small>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('home'); return false;">Home</a></li>
+                <li class="dropdown-container">
+                    <a href="#" onclick="showSection('academics'); return false;">Academics <i class="fas fa-plus"></i></a>
+                    <div class="dropdown">
+                        <a href="#" onclick="showSection('academics'); return false;">Academic Dashboard</a>
+                        <a href="#" onclick="showSection('syllabus'); return false;">Syllabus</a>
+                        <a href="#" onclick="showSection('timetable'); return false;">Timetable</a>
+                    </div>
+                </li>
+                <li><a href="#" onclick="showSection('profile'); return false;">Profile</a></li>
+                <li><a href="#" onclick="showSection('course-reg'); return false;">Course Reg</a></li>
+                <li><a href="#" onclick="showSection('attendance'); return false;">Attendance</a></li>
+                <li><a href="#" onclick="showSection('results'); return false;">Results</a></li>
+                <li><a href="#" onclick="showSection('feedback'); return false;">Feedback</a></li>
+                <li><a href="#" onclick="showSection('exams'); return false;">Exams</a></li>
+                <li><a href="#" onclick="showSection('grievance'); return false;">Grievance</a></li>
+                <li><a href="#" onclick="showSection('gamification'); return false;">Gamification</a></li>
+                <li><a href="#" onclick="showSection('clubs'); return false;">University Clubs</a></li>
+                <li><a href="#" onclick="showSection('library'); return false;">Central Library</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section id="home" class="active">
+            <h2 class="section-title">Welcome to SRU University Portal</h2>
+            <div class="quick-stats">
+                <div class="stat-card" onclick="showStatDetail('GPA', '3.75')">
+                    <div class="stat-number">3.75</div>
+                    <div class="stat-label">Current GPA</div>
+                </div>
+                <div class="stat-card" onclick="showStatDetail('Attendance', '92%')">
+                    <div class="stat-number">92%</div>
+                    <div class="stat-label">Attendance</div>
+                </div>
+                <div class="stat-card" onclick="showStatDetail('Assignments', '15')">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Pending Assignments</div>
+                </div>
+                <div class="stat-card" onclick="showStatDetail('Exams', '2')">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Upcoming Exams</div>
+                </div>
+            </div>
+
+            <!-- Student Personal Details Card with Profile Photo -->
+            <div class="student-info-card">
+                <h3><i class="fas fa-user-graduate"></i> Your Profile Summary</h3>
+                <img id="home-profile-photo" class="profile-photo" src="" alt="Profile Photo" style="background: #ddd; display: block;">
+                <div class="student-detail">
+                    <span class="student-detail-label">Hall Ticket Number:</span>
+                    <span class="student-detail-value">SRU2025001</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Full Name:</span>
+                    <span class="student-detail-value">John Doe</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Student ID:</span>
+                    <span class="student-detail-value">SRU-STU-001</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Department:</span>
+                    <span class="student-detail-value">Computer Science</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Semester:</span>
+                    <span class="student-detail-value">Fall 2025 (Semester 3)</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Email:</span>
+                    <span class="student-detail-value">john.doe@sru.edu</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Phone:</span>
+                    <span class="student-detail-value">+1-234-567-8900</span>
+                </div>
+                <div class="student-detail">
+                    <span class="student-detail-label">Address:</span>
+                    <span class="student-detail-value">123 University Ave, Ananthasagar, Warangal, Telangana</span>
+                </div>
+                <button class="edit-profile-btn" onclick="showSection('profile')">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+            </div>
+
+            <p style="text-align: center; font-size: 1.1em; color: #666;">Welcome, Student! This is your central hub for all academic and administrative needs at SR University. Use the navigation menu above to access various features like course registration, attendance tracking, exam schedules, and more.</p>
+            <i class="fas fa-graduation-cap" style="font-size: 5em; color: #003366; display: block; margin: 20px auto; transition: all 0.3s ease;" onmouseover="this.style.transform='rotate(360deg) scale(1.1)'" onmouseout="this.style.transform='rotate(0deg) scale(1)'"></i>
+        </section>
+
+        <section id="academics">
+            <h2 class="section-title">Academics</h2>
+            <p style="text-align: center; color: #666;">Access your academic dashboard, syllabus, and timetable here. Stay updated with course materials and schedules.</p>
+            <table onclick="toggleRow(event)">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Credits</th>
+                        <th>Instructor</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MATH101</td>
+                        <td>Calculus I</td>
+                        <td>4</td>
+                        <td>Dr. Smith</td>
+                        <td>Enrolled</td>
+                    </tr>
+                    <tr>
+                        <td>SCI102</td>
+                        <td>Physics</td>
+                        <td>3</td>
+                        <td>Prof. Johnson</td>
+                        <td>Enrolled</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="profile">
+            <h2 class="section-title">Profile</h2>
+            <p style="text-align: center; color: #666;">View and edit your personal profile, including contact details and academic records.</p>
+            <div class="profile-upload">
+                <h4>Profile Photo</h4>
+                <img id="profile-photo-preview" class="profile-photo-preview" src="" alt="Profile Photo" style="background: #ddd;">
+                <input type="file" id="profile-photo-input" accept="image/*">
+                <label for="profile-photo-input" class="upload-btn">
+                    <i class="fas fa-camera"></i> Upload Photo
+                </label>
+            </div>
+            <form onsubmit="updateProfile(event)">
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" value="John Doe" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="john.doe@sru.edu" required>
+
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" value="+1-234-567-8900" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" value="123 University Ave" required>
+
+                <button type="submit">Update Profile</button>
+            </form>
+        </section>
+
+        <section id="course-reg">
+            <h2 class="section-title">Course Registration</h2>
+            <p style="text-align: center; color: #666;">Register for upcoming courses and manage your semester plan.</p>
+            <div class="course-list">
+                <div class="course-card">
+                    <h4>MATH201 - Linear Algebra</h4>
+                    <p>Credits: 3 | Instructor: Dr. Lee</p>
+                    <button onclick="openModal('reg-modal', 'MATH201')">Register</button>
+                </div>
+                <div class="course-card">
+                    <h4>ENG103 - Literature</h4>
+                    <p>Credits: 3 | Instructor: Prof. Garcia</p>
+                    <button onclick="openModal('reg-modal', 'ENG103')">Register</button>
+                </div>
+                <div class="course-card">
+                    <h4>CS104 - Programming</h4>
+                    <p>Credits: 4 | Instructor: Dr. Patel</p>
+                    <button onclick="openModal('reg-modal', 'CS104')">Register</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="attendance">
+            <h2 class="section-title">Attendance</h2>
+            <p style="text-align: center; color: #666;">Track your attendance records and view class schedules.</p>
+            <table onclick="toggleRow(event)">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2025-11-01</td>
+                        <td>MATH101</td>
+                        <td>Present</td>
+                        <td>92%</td>
+                    </tr>
+                    <tr>
+                        <td>2025-11-03</td>
+                        <td>SCI102</td>
+                        <td>Absent</td>
+                        <td>88%</td>
+                    </tr>
+                    <tr>
+                        <td>2025-11-05</td>
+                        <td>MATH101</td>
+                        <td>Present</td>
+                        <td>92%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="results">
+            <h2 class="section-title">Results</h2>
+            <p style="text-align: center; color: #666;">Check your semester results and grade reports.</p>
+            <table onclick="toggleRow(event)">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Assignment</th>
+                        <th>Midterm</th>
+                        <th>Final</th>
+                        <th>GPA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MATH101</td>
+                        <td>A</td>
+                        <td>B+</td>
+                        <td>A-</td>
+                        <td>3.7</td>
+                    </tr>
+                    <tr>
+                        <td>SCI102</td>
+                        <td>B</td>
+                        <td>A</td>
+                        <td>B+</td>
+                        <td>3.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="feedback">
+            <h2 class="section-title">Feedback</h2>
+            <p style="text-align: center; color: #666;">Submit feedback on courses, faculty, and facilities.</p>
+            <form onsubmit="submitFeedback(event)">
+                <label for="course">Course:</label>
+                <select id="course" required>
+                    <option value="">Select Course</option>
+                    <option value="MATH101">MATH101</option>
+                    <option value="SCI102">SCI102</option>
+                </select>
+
+                <label>Rating (1-5):</label>
+                <div class="star-rating" id="star-rating">
+                    <span class="star" onclick="setRating(1)">★</span>
+                    <span class="star" onclick="setRating(2)">★</span>
+                    <span class="star" onclick="setRating(3)">★</span>
+                    <span class="star" onclick="setRating(4)">★</span>
+                    <span class="star" onclick="setRating(5)">★</span>
+                </div>
+                <input type="hidden" id="rating" required>
+
+                <label for="comments">Comments:</label>
+                <textarea id="comments" rows="4" required></textarea>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+
+        <section id="exams">
+            <h2 class="section-title">Exams</h2>
+            <p style="text-align: center; color: #666;">View exam schedules, hall tickets, and results.</p>
+            <table onclick="toggleRow(event)">
+                <thead>
+                    <tr>
+                        <th>Exam Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Venue</th>
+                        <th>Countdown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Midterm - MATH101</td>
+                        <td>2025-11-20</td>
+                        <td>10:00 AM</td>
+                        <td>Hall A</td>
+                        <td><span class="countdown" id="countdown1"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Final - SCI102</td>
+                        <td>2025-12-15</td>
+                        <td>2:00 PM</td>
+                        <td>Hall B</td>
+                        <td><span class="countdown" id="countdown2"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="grievance">
+            <h2 class="section-title">Grievance</h2>
+            <div style="text-align: center; color: #666;">
+                <p>File and track grievances or complaints.</p>
+            </div>
+        </section>
+
+        <section id="gamification">
+            <h2 class="section-title">Gamification</h2>
+            <div style="text-align: center; color: #666;">
+                <p>Earn badges, points, and rewards for academic achievements.</p>
+            </div>
+        </section>
+
+        <section id="clubs">
+            <h2 class="section-title">University Clubs</h2>
+            <div style="text-align: center; color: #666;">
+                <p>Join and manage university clubs and extracurricular activities.</p>
+            </div>
+        </section>
+
+        <section id="library">
+            <h2 class="section-title">Central Library</h2>
+            <div style="text-align: center; color: #666;">
+                <p>Access library catalog, book reservations, and digital resources.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="reg-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('reg-modal')">&times;</span>
+            <h3 id="modal-title">Confirm Registration</h3>
+            <p id="modal-body">Are you sure you want to register for this course?</p>
+            <button onclick="confirmRegistration()" style="background: #28a745; margin: 10px;">Yes</button>
+            <button onclick="closeModal('reg-modal')" style="background: #dc3545;">No</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SR University. All rights reserved. | Developed for Academic Excellence.</p>
+    </footer>
+
+    <script>
+        let currentCourse = '';
+
+        // Profile Photo Upload Functionality
+        const profilePhotoInput = document.getElementById('profile-photo-input');
+        const profilePhotoPreview = document.getElementById('profile-photo-preview');
+        const homeProfilePhoto = document.getElementById('home-profile-photo');
+
+        // Load saved profile photo on page load
+        function loadProfilePhoto() {
+            const savedPhoto = localStorage.getItem('profilePhoto');
+            if (savedPhoto) {
+                if (profilePhotoPreview) profilePhotoPreview.src = savedPhoto;
+                if (homeProfilePhoto) homeProfilePhoto.src = savedPhoto;
+            } else {
+                // Default placeholder (you can replace with a URL to a default image)
+                const defaultSrc = 'https://via.placeholder.com/120x120/ddd?text=Photo';
+                if (profilePhotoPreview) profilePhotoPreview.src = defaultSrc;
+                if (homeProfilePhoto) homeProfilePhoto.src = defaultSrc;
+            }
+        }
+
+        // Handle file upload
+        if (profilePhotoInput) {
+            profilePhotoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photoData = e.target.result;
+                        try {
+                            localStorage.setItem('profilePhoto', photoData);
+                        } catch (err) {
+                            console.warn('Could not save image to localStorage:', err);
+                        }
+                        if (profilePhotoPreview) profilePhotoPreview.src = photoData;
+                        if (homeProfilePhoto) homeProfilePhoto.src = photoData;
+                        showToast('Profile photo updated successfully!');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please select a valid image file.');
+                }
+            });
+        }
+
+        // Load photo on init
+        loadProfilePhoto();
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            const el = document.getElementById(sectionId);
+            if (el) el.classList.add('active');
+            window.scrollTo(0, 0);
+            // Reload photo if switching to home or profile
+            if (sectionId === 'home' || sectionId === 'profile') {
+                loadProfilePhoto();
+            }
+        }
+
+        function showStatDetail(type, value) {
+            alert(`${type}: ${value}\nClick for more details (e.g., breakdown by course).`);
+        }
+
+        function toggleRow(event) {
+            // Ensure clicked inside a table cell
+            if (event.target.tagName === 'TD') {
+                const row = event.target.parentNode;
+                row.classList.toggle('active-row');
+                const course = (row.cells[0] && row.cells[0].textContent) || (row.cells[1] && row.cells[1].textContent) || '';
+                if (row.classList.contains('active-row')) {
+                    alert(`Details for ${course}: Expanded view with syllabus and resources.`);
+                }
+            }
+        }
+
+        function openModal(modalId, course) {
+            currentCourse = course;
+            const titleEl = document.getElementById('modal-title');
+            if (titleEl) titleEl.textContent = `Register for ${course}`;
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'none';
+        }
+
+        function confirmRegistration() {
+            if (currentCourse) {
+                alert(`Successfully registered for ${currentCourse}! Check your email for confirmation.`);
+            } else {
+                alert('Successfully registered!');
+            }
+            closeModal('reg-modal');
+        }
+
+        function updateProfile(event) {
+            event.preventDefault();
+            // Here you could save profile changes to localStorage or send to backend
+            alert('Profile updated successfully! Changes saved.');
+        }
+
+        function setRating(rating) {
+            const ratingInput = document.getElementById('rating');
+            if (ratingInput) ratingInput.value = rating;
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            const rating = document.getElementById('rating').value;
+            if (!rating) {
+                alert('Please select a rating.');
+                return;
+            }
+            // Collect other fields if needed
+            alert(`Feedback submitted with rating ${rating}/5! Thank you.`);
+        }
+
+        // Countdown Timers for Exams
+        function updateCountdown(id, targetDate) {
+            const now = new Date().getTime();
+            const distance = new Date(targetDate).getTime() - now;
+            if (!document.getElementById(id)) return;
+            if (distance <= 0) {
+                document.getElementById(id).textContent = 'EXPIRED';
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById(id).textContent = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+        }
+
+        if (document.getElementById('countdown1')) {
+            setInterval(() => updateCountdown('countdown1', '2025-11-20T10:00:00'), 1000);
+        }
+        if (document.getElementById('countdown2')) {
+            setInterval(() => updateCountdown('countdown2', '2025-12-15T14:00:00'), 1000);
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Simple Toast Notification for Upload
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: #28a745; color: white; 
+                padding: 15px; border-radius: 5px; z-index: 3000; transform: translateX(100%); 
+                transition: transform 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Default to home on load
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
